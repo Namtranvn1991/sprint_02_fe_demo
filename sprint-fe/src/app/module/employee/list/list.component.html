@@ -1,0 +1,82 @@
+<div class="container-fluid mt-3">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <!--                    <h4 class="fw-bolder">DANH SÁCH NHÂN VIÊN</h4>-->
+          <button class="btn btn-secondary" type="button">Trở về</button>
+          <button class="btn btn-success" type="button">Thêm mới nhân viên</button>
+        </div>
+        <div class="col-md-2">
+          <ng-container *ngIf="deleteMessenger"><p>{{deleteMessenger}}</p></ng-container>
+<!--          <select class="form-select" aria-label="Default select example">-->
+<!--            <option selected>Xắp xếp</option>-->
+<!--            <option value="1">ngày sinh</option>-->
+<!--            <option value="2">địa chỉ a-z</option>-->
+<!--            <option value="3">địa chỉ z-a</option>-->
+<!--          </select>-->
+        </div>
+        <div class="col-md-2">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>Tất cả</option>
+            <option value="1">Quản trị</option>
+            <option value="2">Nhân viên</option>
+          </select>
+        </div>
+        <div class="col-md-4 float-end">
+          <form class="d-flex">
+            <input class="form-control  me-2" type="search" placeholder="Tìm kiếm">
+            <button class="btn btn-success btn-sm text-light" type="submit">Tìm
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+            <ng-container *ngFor="let employee of employeeList">
+              <div class="col">
+                <div class="card">
+                  <img src="https://www.seekpng.com/png/detail/966-9665317_placeholder-image-person-jpg.png"
+                       class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h3 class="card-title text-center">{{employee.name}}
+                      <span *ngIf="employee.gender == 0; else male">
+                        <i class="bi bi-gender-female"></i>
+                      </span>
+                      <ng-template #male> <i class="bi bi-gender-male"></i></ng-template>
+                    </h3>
+                    <p class="card-text">
+                      <i class="bi bi-file-earmark-person-fill">{{employee.appUser.username}}</i>
+                      <i class="bi bi-people float-end"><ng-container *ngIf="employee.appUser.roles[0].id==1; else other">quản trị viên</ng-container>
+                        <ng-template #other>nhân viên</ng-template></i>
+                    </p>
+                    <p class="card-text">
+                      <i class="bi bi-calendar-check">{{employee.dateOfBirth}}</i>
+                      <i class="bi bi-house-door float-end">{{employee.address}}</i>
+                    </p>
+                    <p class="card-text">
+                      <i class="bi bi-credit-card-2-front">{{employee.idCard}}</i>
+                      <i class="bi bi-telephone float-end">{{employee.phoneNumber}}</i>
+                    </p>
+                    <p class="card-text">
+                      <i class="bi bi-envelope-fill">{{employee.email}}</i>
+                    </p>
+                    <div class="d-grid gap-2 d-md-block text-center">
+                      <button class="btn btn-success custom" type="button">Chỉnh sửa</button>
+                      <button class="btn btn-danger custom" (click)="openDialog(employee.id)">Xóa</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="page<totalPage-1">
+              <button class="btn btn-success" (click)="loadMore()">Xem thêm nhân viên</button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
