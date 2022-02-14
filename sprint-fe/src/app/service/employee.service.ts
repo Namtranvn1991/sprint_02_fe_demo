@@ -10,8 +10,8 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) { }
 
-  getEmployeeList(page: number): Observable<any> {
-    return this.http.get(this.API_URL + 'list' + '?page=' + page);
+  getEmployeeList(page: number, sort: number, role: number, search: string): Observable<any> {
+    return this.http.get(this.API_URL + 'list' + '?page=' + page + '&sort=' + sort + '&role=' + role + '&search=' + search );
   }
 
   deleteEmployee(employeeId): Observable<any> {

@@ -11,4 +11,9 @@ export interface Employee {
   gender: number;
   appUser: AppUser;
   image: string;
+  username: string;
+  roles_id: number;
+  phone_number: string;
+  date_of_birth: string;
+  id_card: string;
 }

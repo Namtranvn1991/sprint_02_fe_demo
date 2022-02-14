@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {EmployeeService} from '../../../service/employee.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {Employee} from '../../../model/employee';
@@ -16,17 +16,17 @@ export class ListComponent implements OnInit {
   dialogRef: MatDialogRef<DeleteComponent>;
   page = 0;
   totalPage;
-  @Input() scrollThreshold = 200; // px
   deleteMessenger;
+  sortType = 0;
+  roleType = 0;
+  keyword = '';
 
-  constructor(private employeeService: EmployeeService, public dialog: MatDialog,
-              private element: ElementRef) {
+  constructor(private employeeService: EmployeeService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.employeeService.getEmployeeList(this.page).subscribe(
+    this.employeeService.getEmployeeList(this.page, this.sortType, this.roleType, this.keyword).subscribe(
       data => {
-        console.log(data);
         this.totalPage = data.totalPages;
         this.employeeList = data.content;
       }
@@ -40,7 +40,6 @@ export class ListComponent implements OnInit {
       data: id,
     });
     this.dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         this.deleteMessenger = 'nhân viên ' + id + ' đã được xoá thành công';
         this.page = 0;
@@ -51,10 +50,32 @@ export class ListComponent implements OnInit {
 
   loadMore() {
     this.page += 1;
-    this.employeeService.getEmployeeList(this.page).subscribe(
+    this.employeeService.getEmployeeList(this.page, this.sortType, this.roleType, this.keyword).subscribe(
       data => {
         this.employeeList = this.employeeList.concat(data.content);
-        console.log(this.employeeList);
+      }
+    );
+  }
+
+  sort() {
+    this.search();
+  }
+
+  role() {
+    this.search();
+  }
+
+  searchKey() {
+    this.page = 0;
+    this.search();
+  }
+
+  search() {
+    this.employeeService.getEmployeeList(this.page, this.sortType, this.roleType, this.keyword).subscribe(
+      data => {
+        console.log(data);
+        this.totalPage = data.totalPages;
+        this.employeeList = data.content;
       }
     );
   }
