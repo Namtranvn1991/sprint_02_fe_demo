@@ -58,10 +58,12 @@ export class ListComponent implements OnInit {
   }
 
   sort() {
+    this.page = 0;
     this.search();
   }
 
   role() {
+    this.page = 0;
     this.search();
   }
 
