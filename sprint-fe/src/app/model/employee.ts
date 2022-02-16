@@ -13,6 +13,7 @@ export interface Employee {
   image: string;
   username: string;
   roles_id: number;
+  rolesId: number;
   phone_number: string;
   date_of_birth: string;
   id_card: string;
